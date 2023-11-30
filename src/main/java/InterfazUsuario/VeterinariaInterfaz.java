@@ -38,7 +38,8 @@ public class VeterinariaInterfaz {
             System.out.println("2. Sacar turno");
             System.out.println("3. Ingresar como médico");
             System.out.println("4. Registrar Medico");
-            System.out.println("5. Salir");
+            System.out.println("5. Ver las mascotas registradas");
+            System.out.println("6. Salir");
 
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -57,6 +58,9 @@ public class VeterinariaInterfaz {
                     registrarMedico();
                     break;
                 case 5:
+                    verMascotas();
+                    break;
+                case 6:
                     System.out.println("Saliendo del programa. ¡Hasta luego!");
                     scanner.close();
                     System.exit(0);
@@ -317,6 +321,47 @@ public class VeterinariaInterfaz {
                 System.out.println();
             }
         }
+    }
+    private void verMascotas(){
+        List<Mascota> mascotaList = mascotaService.obtenerTodasLasMascotas();
+        clearConsola();
+
+        System.out.println("Lista de Mascotas:");
+        System.out.printf("%-5s %-20s %-20s %-10s %-10s%n", "ID", "Nombre", "Raza", "Edad", "Peso");
+        System.out.println("---------------------------------------------------------------");
+
+        for (Mascota mascota : mascotaList) {
+            System.out.printf("%-5d %-20s %-20s %-10d %-10.2f%n",
+                    mascota.getId(),
+                    mascota.getNombre(),
+                    mascota.getRaza(),
+                    mascota.getEdad(),
+                    mascota.getPeso());
+        }
+
+        System.out.println("---------------------------------------------------------------");
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Filtrar por tipo de mascota:");
+        System.out.println("1 - Perros");
+        System.out.println("2 - Gatos");
+        System.out.println("0 - Salir");
+
+        int opcion = scanner.nextInt();
+
+        System.out.println("---------------------------------------------------------------");
+        for (Mascota mascota : mascotaList) {
+            if ((opcion == 1 && mascota instanceof Perro) || (opcion == 2 && mascota instanceof Gato)) {
+                System.out.printf("%-5d %-20s %-20s %-10d %-10.2f%n",
+                        mascota.getId(),
+                        mascota.getNombre(),
+                        mascota.getRaza(),
+                        mascota.getEdad(),
+                        mascota.getPeso());
+            }
+        }
+        System.out.println("---------------------------------------------------------------");
+        System.out.println();
     }
     private Perro crearPerro(String nombre, String raza, String colorPelo, int edad, double peso) {
         Perro nuevoPerro = new Perro();

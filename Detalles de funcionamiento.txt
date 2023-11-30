@@ -1,0 +1,9 @@
+1 - Por medio de la consola de comandos, se puede registrar una mascota ingresando su nombre, raza, color de pelo, edad y peso. Luego, se selecciona si es un gato o un perro para ser guardada en la base de datos. Se utiliza una expresión lambda para que el formato en que se ingresan los strings sea consistente (con mayúscula al principio y luego minúscula).
+
+2 - Se permite registrar un nuevo turno para cualquiera de las mascotas ya creadas ingresando su nombre. Se puede elegir la fecha del turno y se valida que sea de lunes a viernes, de 8 a. m. a 4 p. m.
+
+3 - Un médico puede registrarse en la base ingresando su nombre de usuario y contraseña. Se valida que ese nombre esté disponible.
+
+4 - Un médico que ya está registrado puede acceder con su nombre y contraseña. Se muestran por consola únicamente los turnos disponibles, ordenados por fecha mediante una expresión lambda. Puede asignarse ese turno ingresando la ID del mismo, y se verifica que el médico no tenga un turno ya asignado para ese día y horario.
+
+5 - Por último, se permite ver por consola, de forma ordenada, todas las mascotas con sus atributos registradas en la base de datos. Ademas se puede solicitar mostrar solo los Perros o solo los Gatos.   
