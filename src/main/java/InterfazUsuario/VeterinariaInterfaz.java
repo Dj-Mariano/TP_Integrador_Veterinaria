@@ -1,13 +1,17 @@
 package InterfazUsuario;
 import DAO.*;
+import Lambda.ComparadorTurnos;
+import Lambda.ComparadorTurnosPorFecha;
+import Lambda.FormatoString;
+import Lambda.formato;
 import entity.*;
 import service.*;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 public class VeterinariaInterfaz {
@@ -63,37 +67,35 @@ public class VeterinariaInterfaz {
     }
 
     private void registrarMascota() {
+        FormatoString formatString = new formato();
         Mascota nuevaMascota = new Mascota();
 
         System.out.print("Ingrese el nombre de la mascota: ");
         String nombre = scanner.nextLine();
-        if(nombre.isEmpty()){
-            System.out.println("Nombre invalido");}
+        nombre = formatString.darFormato(nombre);
+        if(nombre.isEmpty()){System.out.println("Nombre invalido");}
 
         System.out.println();
         System.out.print("Ingrese la raza de la mascota: ");
         String raza = scanner.nextLine();
-        if(nombre.isEmpty()){
-            System.out.println("raza invalida");}
+        raza = formatString.darFormato(raza);
+        if(nombre.isEmpty()){System.out.println("raza invalida");}
 
         System.out.println();
         System.out.print("Ingrese el color del pelo de la mascota: ");
         String colorPelo = scanner.nextLine();
-        if(nombre.isEmpty()){
-            System.out.println("Color de pelo invalido");}
+        colorPelo = formatString.darFormato(colorPelo);
+        if(nombre.isEmpty()){System.out.println("Color de pelo invalido");}
 
         System.out.println();
         System.out.print("Ingrese la edad de la mascota: ");
         int edad = scanner.nextInt();
-        if(nombre.isEmpty()){
-            System.out.println("Edad invalida");}
+        if(nombre.isEmpty()){System.out.println("Edad invalida");}
 
         System.out.println();
         System.out.print("Ingrese el peso de la mascota: ");
         double peso = scanner.nextDouble();
-        if(nombre.isEmpty()){
-            System.out.println("Peso invalido");
-        }
+        if(nombre.isEmpty()){System.out.println("Peso invalido");}
 
         System.out.println();
         System.out.print("Seleccione el tipo de mascota (1: Perro, 2: Gato): ");
@@ -120,13 +122,14 @@ public class VeterinariaInterfaz {
             sacarTurno(nuevaMascota);
         }
     }
-
     private void sacarTurno(Mascota mascota) {
+        FormatoString formatString = new formato();
         LocalDateTime fechaConvertida = null;
         Mascota mascotaNueva = new Mascota();
         if(mascota==null){
             System.out.print("Ingrese el nombre de la mascota: ");
             String nombre = scanner.nextLine();
+            nombre = formatString.darFormato(nombre);
             List<Mascota> mascotas = mascotaService.buscarPorNombre(nombre);
             if(mascotas.isEmpty()){
                 System.out.println("No se encuentran mascotas con el nombre: " + nombre);
@@ -190,7 +193,6 @@ public class VeterinariaInterfaz {
         }
 
     }
-
     private void registrarMedico(){
         List<Medico> medicoList = medicoService.obtenerTodosLosMedicos();
         String nombreUsuario = new String();
@@ -234,8 +236,8 @@ public class VeterinariaInterfaz {
         System.out.println("Registro exitoso.");
         System.out.println();
     }
-
     private void ingresarComoMedico(){
+        ComparadorTurnos comparadorFecha = new ComparadorTurnosPorFecha();
         clearConsola();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese su nombre de usuario: ");
@@ -263,6 +265,9 @@ public class VeterinariaInterfaz {
         }
         clearConsola();
         List<TurnoMedico> turnosLibres = turnoMedicoService.obtenerTurnosLibres();
+
+        Collections.sort(turnosLibres, comparadorFecha::compararTurnos);
+
         if(turnosLibres.isEmpty()){
             System.out.println("---------------------------------------------------------------");
             System.out.println();
@@ -368,4 +373,5 @@ public class VeterinariaInterfaz {
         System.out.println();
         System.out.println();
     }
+
 }
